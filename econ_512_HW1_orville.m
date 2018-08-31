@@ -25,3 +25,4 @@ e_bar=repmat(e_hat,1,4);
 X1=X.*e_bar;
 V=X1'*X1; D=X'*X;
 var=inv(D)*V*inv(D);
+%% this is wrong
