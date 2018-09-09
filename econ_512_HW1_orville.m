@@ -11,11 +11,15 @@ A=[2 4 6;1 7 5;3 12 4]; b=[-2;3;10];
 C=A'*b; D=inv(A'*A)*b; E=b'*sum(A,2);F=A(1,:);
 q3=A\b;
 %% Question 4
+% better use kron(), it's faster
 B=blkdiag(A,A,A,A,A);
 %% Question 5
 A=normrnd(10,5,5,3);
 B=(A>=10);
 %% Question 6
+
+% csvread replaces NaNs with zeros and that produced a little off beta
+% estimates
 M=csvread('F:\PSU Coursework\512 Empirical Methods\Homework-master\Homeworks\hw1\datahw1.csv');
 Y=M(:,5); X=[ones(size(M,1),1) M(:,3) M(:,4) M(:,6)];
 n=size(M,1);
@@ -26,6 +30,7 @@ e_hat=Y-X*b_hat;
 e_bar=repmat(e_hat,1,4);
 X1=X.*e_bar;
 V=X1'*X1; D=X'*X;
+% keeping the same notation as before var = D\V/D; 
 var=inv(D)*V*inv(D);
 %{
 %Somewhat less naive
