@@ -25,4 +25,19 @@ for i=1:maxit
 end
 toc
 %% Question 3
+%% Question 4
+%Initial value of Prices
+p3=[5,1];
+%The demand at a price.
+D=@(p)[(exp(2-p(1)))/(1+exp(2-p(1))+exp(2-p(2))),(exp(2-p(2)))/(1+exp(2-p(1))+exp(2-p(2)))];
+for k=1:maxit
+    fnorm=norm(cournot_hw2(p3));
+    fprintf('k %d: P(A) = %f, P(B) = %f, norm(f(x)) = %.8f\n', k, p3(1), p3(2), fnorm);
+    if fnorm < tol
+        break
+    end
+    p3Old=p3;
+    p3New=(ones(2,1)-D(p3)).^(-1);
+    p3=p3New;
+end
 
