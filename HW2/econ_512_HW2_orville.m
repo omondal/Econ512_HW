@@ -76,4 +76,4 @@ for l=1:length(v2)
 end
 %plot
 plot(v(2,:),p_out(1,:),v(2,:),p_out(2,:));
-xlabel('Valuation of person 2'); ylabel('Equilibrium Prices');
+xlabel('Valuation of good B'); ylabel('Equilibrium Prices');
