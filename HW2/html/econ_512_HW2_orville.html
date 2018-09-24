@@ -1,0 +1,248 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>econ_512_HW2_orville</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-09-22"><meta name="DC.source" content="econ_512_HW2_orville.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Question 1</a></li><li><a href="#2">Question 2</a></li><li><a href="#3">Question 3</a></li><li><a href="#4">Question 4</a></li><li><a href="#5">Question 5</a></li></ul></div><h2 id="1">Question 1</h2><pre class="codeinput">D_A=exp(1)/(1+2*exp(1));
+fprintf(<span class="string">'Demand assuming Price is 1: %f\n'</span>, D_A);
+</pre><pre class="codeoutput">Demand assuming Price is 1: 0.422319
+</pre><h2 id="2">Question 2</h2><pre class="codeinput">p=[1;4];v=[2;2];
+<span class="comment">% Initial values of function and Jacobian</span>
+[fval, iJacTemp]=cournot_hw2(p,v);
+iJac=inv(iJacTemp);
+<span class="comment">% Broyden Iterations</span>
+maxit=10000;
+tol=1e-10;
+tic
+<span class="keyword">for</span> i=1:maxit
+    fnorm = norm(fval);
+    <span class="keyword">if</span> norm(fval) &lt; tol
+        fprintf(<span class="string">'i %d: P(A) = %f, P(B) = %f, norm(f(x)) = %.8f\n'</span>, i, p(1), p(2), norm(fval));
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+   d=-(iJac*fval);
+   p=p+d;
+   fOld=fval;
+   fval=cournot_hw2(p,v);
+   u=iJac*(fval-fOld);
+   iJac=iJac+((d-u)*(d'*iJac))/(d'*u);
+<span class="keyword">end</span>
+toc
+</pre><pre class="codeoutput">i 10: P(A) = 1.598942, P(B) = 1.598942, norm(f(x)) = 0.00000000
+Elapsed time is 0.010425 seconds.
+</pre><h2 id="3">Question 3</h2><pre class="codeinput"><span class="comment">%Initil values</span>
+p2=[1;4];
+p2Old=[5,5];
+fOld=cournot_hw2(p2Old,v);
+tic
+<span class="keyword">for</span> j=1:maxit
+    fval=cournot_hw2(p2,v);
+    <span class="keyword">if</span> norm(fval)&lt;tol
+        fprintf(<span class="string">'j: %d, P(A): %f, P(B): %f, norm(f(p)): %f\n'</span>,j,p2(1),p2(2),norm(fval));
+        <span class="keyword">break</span>
+    <span class="keyword">else</span>
+<span class="comment">%       d_n=cournot_hw2(p2);</span>
+<span class="comment">%       d_ol=cournot_hw2(p2Old);</span>
+        p2_A=p2(1)-(p2(1)-p2Old(1))*fval(1)/(fval(1)-fOld(1));
+        d_gaussSidel=cournot_hw2([p2_A;p2(2)],v);
+        p2_B=p2(2)-(p2(2)-p2Old(2))*d_gaussSidel(2)/(fval(2)-fOld(2));
+        p2Old=p2;
+        fOld=fval;
+        p2=[p2_A;p2_B];
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+toc
+</pre><pre class="codeoutput">j: 49, P(A): 1.598942, P(B): 1.598942, norm(f(p)): 0.000000
+Elapsed time is 0.005708 seconds.
+</pre><h2 id="4">Question 4</h2><pre class="codeinput"><span class="comment">%Initial value of Prices</span>
+p3=[1;1]; p3Old=5*p3;
+<span class="comment">%The demand at a price.</span>
+D=@(p)[(exp(2-p(1)))/(1+exp(2-p(1))+exp(2-p(2)));(exp(2-p(2)))/(1+exp(2-p(1))+exp(2-p(2)))];
+tic
+<span class="keyword">for</span> k=1:maxit
+    fnorm=norm(cournot_hw2(p3,v));
+    pnorm=norm(p3-p3Old);
+    <span class="keyword">if</span> pnorm&lt;tol
+        fprintf(<span class="string">'k %d: P(A) = %f, P(B) = %f, norm(f(x)) = %.8f\n'</span>, k, p3(1), p3(2), fnorm);
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+    p3Old=p3;
+    p3New=(ones(2,1)-D(p3)).^(-1);
+    p3=p3New;
+<span class="keyword">end</span>
+toc
+</pre><pre class="codeoutput">k 19: P(A) = 1.598942, P(B) = 1.598942, norm(f(x)) = 0.00000000
+Elapsed time is 0.006317 seconds.
+</pre><h2 id="5">Question 5</h2><p>I'm going to use Broyden to solve this.</p><pre class="codeinput">v2=0:0.2:3;
+v1=repmat(2,1,length(v2));
+v=[v1;v2];
+p_out=ones(2,length(v2));
+<span class="keyword">for</span> l=1:length(v2)
+    p_out(:,l)=broyden_cournot(v(:,l));
+<span class="keyword">end</span>
+<span class="comment">%plot</span>
+plot(v(2,:),p_out(1,:),v(2,:),p_out(2,:));
+xlabel(<span class="string">'Valuation of person 2'</span>); ylabel(<span class="string">'Equilibrium Prices'</span>);
+</pre><pre class="codeoutput">i 9: P(A) = 1.867082, P(B) = 1.148094, norm(f(x)) = 0.00000000
+i 9: P(A) = 1.846454, P(B) = 1.174272, norm(f(x)) = 0.00000000
+i 9: P(A) = 1.823888, P(B) = 1.204095, norm(f(x)) = 0.00000000
+i 9: P(A) = 1.799509, P(B) = 1.237822, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.773502, P(B) = 1.275688, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.746108, P(B) = 1.317897, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.717609, P(B) = 1.364621, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.688320, P(B) = 1.415997, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.658566, P(B) = 1.472132, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.628671, P(B) = 1.533099, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.598942, P(B) = 1.598942, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.569658, P(B) = 1.669674, norm(f(x)) = 0.00000000
+i 11: P(A) = 1.541062, P(B) = 1.745280, norm(f(x)) = 0.00000000
+i 11: P(A) = 1.513357, P(B) = 1.825718, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.486702, P(B) = 1.910922, norm(f(x)) = 0.00000000
+i 10: P(A) = 1.461215, P(B) = 2.000803, norm(f(x)) = 0.00000000
+</pre><img vspace="5" hspace="5" src="econ_512_HW2_orville_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Question 1
+D_A=exp(1)/(1+2*exp(1));
+fprintf('Demand assuming Price is 1: %f\n', D_A);
+%% Question 2
+p=[1;4];v=[2;2];
+% Initial values of function and Jacobian
+[fval, iJacTemp]=cournot_hw2(p,v);
+iJac=inv(iJacTemp);
+% Broyden Iterations
+maxit=10000;
+tol=1e-10;
+tic
+for i=1:maxit
+    fnorm = norm(fval);
+    if norm(fval) < tol
+        fprintf('i %d: P(A) = %f, P(B) = %f, norm(f(x)) = %.8f\n', i, p(1), p(2), norm(fval));
+        break
+    end
+   d=-(iJac*fval);
+   p=p+d;
+   fOld=fval;
+   fval=cournot_hw2(p,v);
+   u=iJac*(fval-fOld);
+   iJac=iJac+((d-u)*(d'*iJac))/(d'*u);
+end
+toc
+%% Question 3
+%Initil values
+p2=[1;4];
+p2Old=[5,5];
+fOld=cournot_hw2(p2Old,v);
+tic
+for j=1:maxit
+    fval=cournot_hw2(p2,v);
+    if norm(fval)<tol
+        fprintf('j: %d, P(A): %f, P(B): %f, norm(f(p)): %f\n',j,p2(1),p2(2),norm(fval));
+        break
+    else
+%       d_n=cournot_hw2(p2);
+%       d_ol=cournot_hw2(p2Old);
+        p2_A=p2(1)-(p2(1)-p2Old(1))*fval(1)/(fval(1)-fOld(1));
+        d_gaussSidel=cournot_hw2([p2_A;p2(2)],v);
+        p2_B=p2(2)-(p2(2)-p2Old(2))*d_gaussSidel(2)/(fval(2)-fOld(2));
+        p2Old=p2;
+        fOld=fval;
+        p2=[p2_A;p2_B];
+    end
+end
+toc
+%% Question 4
+%Initial value of Prices
+p3=[1;1]; p3Old=5*p3;
+%The demand at a price.
+D=@(p)[(exp(2-p(1)))/(1+exp(2-p(1))+exp(2-p(2)));(exp(2-p(2)))/(1+exp(2-p(1))+exp(2-p(2)))];
+tic
+for k=1:maxit
+    fnorm=norm(cournot_hw2(p3,v));
+    pnorm=norm(p3-p3Old);
+    if pnorm<tol
+        fprintf('k %d: P(A) = %f, P(B) = %f, norm(f(x)) = %.8f\n', k, p3(1), p3(2), fnorm);
+        break
+    end
+    p3Old=p3;
+    p3New=(ones(2,1)-D(p3)).^(-1);
+    p3=p3New;
+end
+toc
+%% Question 5
+% I'm going to use Broyden to solve this.
+v2=0:0.2:3;
+v1=repmat(2,1,length(v2));
+v=[v1;v2];
+p_out=ones(2,length(v2));
+for l=1:length(v2)
+    p_out(:,l)=broyden_cournot(v(:,l));
+end
+%plot
+plot(v(2,:),p_out(1,:),v(2,:),p_out(2,:));
+xlabel('Valuation of person 2'); ylabel('Equilibrium Prices');
+
+##### SOURCE END #####
+--></body></html>
