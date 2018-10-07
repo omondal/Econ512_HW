@@ -40,7 +40,9 @@ end
 fprintf('Iterations: %d, Objective Function: %f \n', maxit2,nls_f(b_nls_nm));
 b_nls_nm
 %% Question 5
-% Define a range over which to perturb initial values.
+% Define a range over which to perturb initial values. I will store the
+% time taken to converge, for any method, for all values in a particular
+% range of initial values.
 range=linspace(2,4);
 tests=zeros(length(range)*4,4);
 for k=1:length(range)
@@ -66,7 +68,7 @@ for k=1:length(range)
     tests((k-1)*4+4,3)=x11;
     tests((k-1)*4+4,4)=x12;
 end
-csvwrite('robustness.csv',tests);
+%csvwrite('robustness.csv',tests);
 %% Comparisons for question 5
 l1=find(tests(:,4)==1);l2=find(tests(:,4)==2);l3=find(tests(:,4)==3);l4=find(tests(:,4)==4);
 mle_tests=tests(l1,:);mleqn_tests=tests(l2,:);nls_tests=tests(l3,:);nlsnm_tests=tests(l4,:);
