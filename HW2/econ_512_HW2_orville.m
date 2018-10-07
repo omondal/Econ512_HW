@@ -1,6 +1,7 @@
 %% Question 1
 D_A=exp(1)/(1+2*exp(1));
 fprintf('Demand assuming Price is 1: %f\n', D_A);
+
 %% Question 2
 p=[1;4];v=[2;2];
 % Initial values of function and Jacobian
