@@ -10,7 +10,7 @@
 \usepackage{esint}
 \usepackage{amsfonts}
 \usepackage{times}
-\usepackage[top=.6 in, left=0.9in, right=0.9in]{geometry}
+\usepackage[top=.4 in, left=0.9in, right=0.9in]{geometry}
 \usepackage{bbm}
 \usepackage{dsfont}
 \usepackage{enumerate}
@@ -41,21 +41,23 @@ No estimated values of $\pi$ are mentioned here, since the final table with resu
 \end{cases}
 \]
 Where $h=\texttt{1/25000}$. The integral is calculated $iteratively$, i.e. first a value for $x_{n}$ is fixed, and the integral is calculated over the $y$ co-ordinate (using the same points and weights as above), following which the integral values are weighted together using $w_{n}$.
-\item The process for this is a duplication of the one in question 1, with a minor change owing to calculating $\sqrt{1-x_n^{2}}$ at each of the equi-distributed points on \texttt{[0,1]}. 
+\item The process for this is a duplication of the one in question 1, with a minor change owing to calculating $\sqrt{1-x_n^{2}}$ at each of the equi-distributed points on \texttt{[0,1]}.
 \item The same manner of duplication with minor changes, as in question 3.
-\item The results of the estimation for the four methods are given below. It appears that Newton-Coates, for the Pythagorean case is the most accurate method, across the number of draws.
+\item The results of the estimation for the six methods are given below. It appears that Newton-Coates, for the Pythagorean case is the most accurate method, across the number of draws.
 \begin{table}[h]
 \caption{Standard Errors from $\pi$ Calculations} by number of draws\vspace{2mm}
 \centering
 \begin{tabular}{c c c c c}
 \hline \hline\vspace{2mm}
-Method &1000 &10000 &45000 \\
+Method &100 &1000 &10000 \\
 \hline
-Quasi-MC (Indicator function)&0.0016&7.9265e-04&3.4821e-04\\
-Newton-Coates(Indicator function)&9.3787e-04&3.3477e-05&4.9839e-05\\
-Quasi-MC (Pythagorean)&3.3265e-04&1.2267e-05&1.3101e-06\\
-Newton-Coates(Pythagorean)&1.9336e-04&6.1160e-06&6.4070e-07\\
+Pseudo-MC (Indicator function)&0.0131&0.0017&1.7523e-04\\
+Quasi-MC (Indicator function)&4.6624e-04&2.5365e-06&6.2830e-07\\
+Newton-Coates(Indicator function)&1.2828e-04&1.1066e-07&1.5048e-10\\
+Pseudo-MC (Pythagorean)&0.0065&8.2770e-04&7.7761e-05\\
+Quasi-MC (Pythagorean)&1.0818e-04&8.7960e-07&1.1207e-09\\
+Newton-Coates(Pythagorean)&3.7232e-05&3.7390e-08&3.7405e-11
 \end{tabular}
 \end{table}
 \end{enumerate}
-\end{document}
+\end{document} 
