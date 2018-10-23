@@ -25,9 +25,9 @@ f_val2=(1-x4.^2).^0.5;%Function values at points of quadrature
 pi_nc2=4*wx4'*f_val2;% Newton-Coates estimate of Pi, using the iterated integral.
 
 %% Question 5
-sim_study=zeros(4,2);
+sim_study=zeros(6,2);
 fun=@(x,y)(double(x.^2+y.^2<=1));
-t=[1000,10000,45000];
+t=[100,1000,10000];
 for k=1:length(t)
     [a,b]=newt_coat_weights(t(k),0,1);
     f_val1=zeros(length(a),length(a));
@@ -35,7 +35,7 @@ for k=1:length(t)
     for i=1:length(a)
     f_val1(i,:)=fun(repmat(a(i),1,length(a)),a');
     end
-    sim_study(3,k)=4*b'*f_val1*b;
+    sim_study(3,k)=4*b'*f_val1*b;%Newton-Coates estimate of Indicator function integral
 end
 clear a b f_val1 k
 for l=1:length(t)
@@ -58,4 +58,31 @@ for n=1:length(t)
 end
 clear g h n
 
-final=abs(sim_study-pi);
+%Generate Pseudo Random numbers, One sequence for each dimension.
+seed=12345;
+rng(seed); pmc1=zeros(200,length(t)); pmc2=zeros(200,length(t));
+%Pseudo MC integration using the above random numbers
+for r=1:200
+    for p=1:length(t)
+        tic;
+        r1=rand(t(p),1);
+        r2=rand(t(p),1);
+        f_val4=zeros(t(p),1);
+        for s=1:t(p)
+            f_val4(s)=mean(fun(repmat(r1(s),t(p),1),r2));
+        end
+        pmc1(r,p)=4*mean(f_val4);
+        clear f_val4
+        pmc2(r,p)=4*mean((1-r1.^(2)).^0.5);
+    end
+    time=toc;
+    fprintf('Iteration: %d Time: %f\n', r,time);
+end
+final=(sim_study-pi).^2;
+pmc1_error=pmc1-pi; pmc2_error=pmc2-pi;
+for x=1:length(t)
+    final(5,x)=mean(pmc1_error(:,x).^2);
+    final(6,x)=mean(pmc2_error(:,x).^2);
+end
+
+csvwrite('simulations_output.csv',final);
