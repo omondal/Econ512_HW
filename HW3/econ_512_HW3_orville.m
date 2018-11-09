@@ -1,3 +1,4 @@
+% all is great
 %%Load the data
 W=load('hw3','-mat'); X=W.X; y=W.y;
 clear W;
