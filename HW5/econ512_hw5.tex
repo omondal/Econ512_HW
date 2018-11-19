@@ -1,0 +1,54 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[pdftex]{graphicx}
+\graphicspath{{Image/}}
+\usepackage{epstopdf}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\usepackage{esint}
+\usepackage{amsfonts}
+\usepackage{times}
+\usepackage[top=.4 in, left=0.9in, right=0.9in]{geometry}
+\usepackage{bbm}
+\usepackage{dsfont}
+\usepackage{enumerate}
+\usepackage{titlesec}
+\newcommand{\rn}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Gn}{\mathbb{G}_{n}}
+\newcommand{\G}{\mathbb{G}}
+\newcommand {\tab}{\hspace{10 mm}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\titleformat{\section}[block]{\large \it \filcenter}{}{0.5 ex}{}
+\titleformat{\subsection}[block]{\small\it \filcenter}{}{0.5 em}{}
+\titleformat{\subsubsection}[block]{\small\it \filcenter}{}{0.5 em}{}
+\title{Empirical Methods in Economics\\\small{Assignment V}}
+\date{Orville D. Mondal\\ $25^{th}$ of November, 2018\vspace{-3ex}}
+\begin{document}
+\maketitle
+\begin{enumerate}[1.]
+\item Values for questions 1 and 2 are -1257.0744, and -1259.5315, respectively.
+\item These are the values for when $u_{i}$=0, for all $i$. Starting value is a tuple of $(\gamma,\beta,\sigma_{\beta})$
+\begin{center}\begin{tabular}{c c c }
+\hline \hline\vspace{2mm}
+Starting Value & Argmax &Max. Value\\
+\hline
+(1,1,1)& (-0.5060,2.4937,1.3738) & 536.7241\\
+(1,1,1) & (-0.4626,1.4363,1.8121) & 555.1852
+\end{tabular}
+\end{center}
+\item These are the values when one allows $u_i$ to vary, while maintaining that $\mu=[\beta,0]'$, i.e. $u_i$ is mean 0. Starting value tuple is $(\gamma,\beta,\sigma_{u},\sigma_\beta,\sigma_{u\beta})$
+\begin{center}\begin{tabular}{c c c }
+\hline \hline\vspace{2mm}
+Starting Value & Argmax &Max. Value\\
+\hline
+(1,1,1,1,0.5)& (-0.3923,0.9590,1.2837,1.2506,0.7741) & 530.2781
+\end{tabular}
+\end{center}
+
+\end{enumerate}
+\textbf{Note}: In the calculations for question 3, when using Gaussian quadrature, one uses 100 draws from a normal distribution, while when using Monte Carlo methods, one uses 500 pseudo-random draws from a normal distribution. \\For quesiton 4, integration is based on a 10,000 point grid of $(\beta,u_i)$, drawn from a $N(\mu,\Sigma)$, where $\mu=[\beta,0]$, and $\Sigma$ is a general, symmetric, positive semi-definite matrix.
+\end{document}
