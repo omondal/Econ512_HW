@@ -7,11 +7,13 @@ pi_qmc=4*w'*test1; %Quasi-MC estimate of pi.
 %% Question 2
 fun=@(x,y)(double(x.^2+y.^2<=1));
 [x1,wx1]=newt_coat_weights(25000,0,1); %Generate quadrature points and weights, assuming approximation by quadratic function 
+% good, but you might have used the compecon function for that. 
 f_val=zeros(25000,25000);
 %Evaluate a 2-d matrix of function evaluations at all points of quadrature.
 for i=1:length(x1)
     f_val(i,:)=fun(repmat(x1(i),1,length(x1)),x1');
 end
+% loops are slower than matri algebra. look at answer key
 
 pi_nc=4*wx1'*f_val*wx1; %Newton-Coates estimate of pi.
 
