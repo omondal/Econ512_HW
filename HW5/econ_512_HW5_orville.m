@@ -20,7 +20,7 @@ l2=likelihood(0,w2,nodes2,Y,X,Z);
 
 %% Question 3-Gaussian Quadrature
 func1=@(x) max_no_u_gaussian(x(1),x(2),x(3),Y,X,Z);
-x0=[1,1,1];
+    x0=[1,1,1];
 [arg, fval]=fminsearch(func1,x0);
 %% Question 3-MC
 func2=@(y)max_no_u_mc(y(1),y(2),y(3),Y,X,Z);
