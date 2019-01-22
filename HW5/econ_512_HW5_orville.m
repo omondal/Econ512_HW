@@ -1,8 +1,10 @@
 %% Load Data
 addpath('D:/PSU_Coursework/512_Empirical_Methods/Lectures/CETools'); %add Miranda-Fackler's toolkit.
+% dont use absolute path, it is different on my computer, i need to replace
+% it
 
 data=load('D:\PSU_Coursework\512_Empirical_Methods\Econ512_HW\HW5\hw5.mat');%Load data
-X=data.data.X';Y=data.data.Y';Z=data.data.Z';
+X=data.X';Y=data.Y';Z=data.Z';
 clear data;
 %% Question 1
 [x,w]=qnwnorm(20,0.1,1);% Generate 20 nodes and weights from N(0.1,1).
@@ -10,6 +12,7 @@ nodes.nx=x;
 nodes.ny=0;
 %nodes=[x zeros(20,1)];
 l1=likelihood(0,w,nodes,Y,X,Z);
+% really, with data of this size there is no need to do parallel for
 
 %% Question 2
 rng(100);
@@ -22,6 +25,8 @@ l2=likelihood(0,w2,nodes2,Y,X,Z);
 func1=@(x) max_no_u_gaussian(x(1),x(2),x(3),Y,X,Z);
     x0=[1,1,1];
 [arg, fval]=fminsearch(func1,x0);
+% you were told to use fmincon, check the answer key to see how can you use
+% one function with varying cinstraints in fmincon
 %% Question 3-MC
 func2=@(y)max_no_u_mc(y(1),y(2),y(3),Y,X,Z);
 x1=[1,1,1];
@@ -37,3 +42,6 @@ end
 func3=@(z)max_mc(z(1),z(2),z(3),z(4),z(5),Y,X,Z);
 x2=[1,1,1,1,0.5];
 [arg3,fval3,exit3]=fminsearch(func3,x2);
+% really, without parallel nodes it would have been orders of magnitude
+% faster. 
+% also, you are not using fmincon
