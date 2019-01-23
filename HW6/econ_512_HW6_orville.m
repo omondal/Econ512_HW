@@ -32,30 +32,42 @@ while diff>0.001
     disp(['Change in value function:',num2str(diff)]);
     v_init=v_revised;
 end
+policy=stock(d_revised);
 %plot value function against stock of goods, for specified prices.
 figure(1)
 plot(stock,v_init(:,8),'r-',stock,v_init(:,11),'k-.',stock,v_init(:,14),'b--');
 legend({'p=0.9','p=1','p=1.1'},'Location','northwest');
-title('Value function cross-sections');
-figure(2)
+title('Value function cross-sections'); xlabel('Price');ylabel('Value');
+figure(2)   
 %plot next period optimal stock as a function of price for lumber=25,50,75
-plot(grid,d_revised(250,:),'r-',grid,d_revised(500,:),'k-.',grid,d_revised(750,:),'b--');
+plot(grid,policy(250,:),'r-',grid,policy(500,:),'k-.',grid,policy(750,:),'b--');
 legend({'stock=25','stock=50','stock=75'},'Location','northwest');
-title('Optimal Next-period Stock');
+title('Optimal Next-period Stock'); xlabel('Price');ylabel('Optimal Stock Next Period.');
 %% Question 5
-% Generate the time series for price
-p_gen=[11,zeros(1,19)]; %vector of indices.
-rng(100);
-for i=1:19
-    draw=mnrnd(1,prob(p_gen(i),:));
-    p_gen(i+1)=find(draw==1);
+    rng(1000); sims=50; decision_sim=zeros(sims,20);p_gen=zeros(sims,20); 
+for k=1:sims
+    % Generate the time series for price
+    p_gen(k,1)=11; %vector of indices.
+    for i=1:19
+        draw=mnrnd(1,prob(p_gen(k,i),:));
+        p_gen(k,i+1)=find(draw==1);
+    end
+    decision_sim(k,1)=d_revised(1000,11);
+    for j=1:19
+        decision_sim(k,j+1)=d_revised(decision_sim(k,j),p_gen(k,j+1));
+    end
+    disp(['Iteration:', num2str(k)]);
 end
-d_gen=[d_revised(1000,11),zeros(1,19)];
-for j=1:19
-    d_gen(j+1)=d_revised(d_gen(j),p_gen(j+1));
-end
+sim_stock=stock(decision_sim);
+sim_stock_mean=mean(sim_stock,1);
+sim_stock_se=std(sim_stock,1);
+sim_stock_lb=sim_stock_mean-1.645*(sim_stock_se)/sqrt(sims);
+sim_stock_ub=sim_stock_mean+1.645*(sim_stock_se)/sqrt(sims);
 %Plot the generated time series for stock
-plot(1:1:20,d_gen);
+plot(1:1:20,sim_stock_mean, 1:1:20,sim_stock_lb,1:1:20,sim_stock_ub );
+legend({'Mean Stock','Lower','Upper'},'Location','northwest');
+title('Expected Optimal Next-period Stock'); xlabel('Time');ylabel('Expected Optimal Stock Next Period.');
+
 %% Question 6
 %{
 Repeat the exercise when using only 5 points of price.
@@ -80,13 +92,15 @@ while diff2>0.001
     disp(['Change in value function:',num2str(diff2)]);
     v_init2=v_revised2;
 end
+policy2=stock1(d_revised2);
+
 figure(3)
 %plot value function against stock of goods, for specified prices.
 plot(stock1,v_init2(:,2),'r-',stock1,v_init2(:,3),'k-.',stock1,v_init2(:,4),'b--');
 legend({'p=0.9','p=1','p=1.1'},'Location','northwest');
-title('Value function cross-sections');
+title('Value function cross-sections');xlabel('Price');ylabel('Value');
 figure(4)
 %plot next period optimal stock as a function of price for lumber=25,50,75
-plot(grid1,d_revised2(250,:),'r-',grid1,d_revised2(500,:),'k-.',grid1,d_revised2(750,:),'b--');
+plot(grid1,policy2(250,:),'r-',grid1,policy2(500,:),'k-.',grid1,policy2(750,:),'b--');
 legend({'stock=25','stock=50','stock=75'},'Location','northwest');
-title('Optimal Next-period Stock');
+title('Optimal Next-period Stock');xlabel('Price');ylabel('Optimal Stock Next Period.');
