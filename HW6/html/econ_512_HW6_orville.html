@@ -1,0 +1,375 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>econ_512_HW6_orville</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-01-23"><meta name="DC.source" content="econ_512_HW6_orville.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Question 2</a></li><li><a href="#2">Question 3,4</a></li><li><a href="#3">Question 5</a></li><li><a href="#4">Question 6</a></li></ul></div><h2 id="1">Question 2</h2><pre class="codeinput"><span class="comment">%Generate a discrete grid of prices, and transition probabilities,</span>
+<span class="comment">%approximating the AR(1) process for price.</span>
+
+[prob,grid]=tauchen(21,0.5,0.5,0.1);
+</pre><h2 id="2">Question 3,4</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">NOTE: Value function iteration is performed to yield a matrix of value
+</span><span class="comment">function values, where element (i,j) corresponds to the value when the
+</span><span class="comment">period stock of `lumber' is the i-th value, and the period price is the
+</span><span class="comment">j-th value. If there are S possible starting stocks, and P possible price
+</span><span class="comment">levels, the value function matrix is of dimension S\cross P
+</span><span class="comment">
+</span><span class="comment">%}
+</span>delta=0.95; S=1000; P=repmat(grid,S,1); pi=prob; <span class="comment">%Setting up discount factor,</span>
+                                                 <span class="comment">%number of state spaces for the resource,</span>
+                                                 <span class="comment">%price matrix, transition</span>
+                                                 <span class="comment">%probabilities.</span>
+stock=linspace(0,100,S); S1=repmat(stock',1,length(grid));<span class="comment">%Actual state space, and a repeated matrix needed for later.</span>
+v_init=zeros(S,length(grid));d_init=ones(S,length(grid)); <span class="comment">%Initialise value functions, decisions.</span>
+v_revised=ones(S,length(grid));d_revised=ones(S,length(grid));<span class="comment">%Revised values, used in VFI.</span>
+diff=1;
+
+<span class="keyword">while</span> diff&gt;0.001
+    Ev=v_init*pi';
+    <span class="keyword">for</span> i=1:S
+        U=u(P,stock(i)-S1);
+        [v_revised(i,:),d_revised(i,:)]=max(U+delta*Ev);
+    <span class="keyword">end</span>
+    diff=norm(v_revised-v_init)/norm(v_revised);
+    disp([<span class="string">'Change in value function:'</span>,num2str(diff)]);
+    v_init=v_revised;
+<span class="keyword">end</span>
+policy=stock(d_revised);
+<span class="comment">%plot value function against stock of goods, for specified prices.</span>
+figure(1)
+plot(stock,v_init(:,8),<span class="string">'r-'</span>,stock,v_init(:,11),<span class="string">'k-.'</span>,stock,v_init(:,14),<span class="string">'b--'</span>);
+legend({<span class="string">'p=0.9'</span>,<span class="string">'p=1'</span>,<span class="string">'p=1.1'</span>},<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+title(<span class="string">'Value function cross-sections'</span>); xlabel(<span class="string">'Price'</span>);ylabel(<span class="string">'Value'</span>);
+figure(2)
+<span class="comment">%plot next period optimal stock as a function of price for lumber=25,50,75</span>
+plot(grid,policy(250,:),<span class="string">'r-'</span>,grid,policy(500,:),<span class="string">'k-.'</span>,grid,policy(750,:),<span class="string">'b--'</span>);
+legend({<span class="string">'stock=25'</span>,<span class="string">'stock=50'</span>,<span class="string">'stock=75'</span>},<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+title(<span class="string">'Optimal Next-period Stock'</span>); xlabel(<span class="string">'Price'</span>);ylabel(<span class="string">'Optimal Stock Next Period.'</span>);
+</pre><pre class="codeoutput">Change in value function:1
+Change in value function:0.4373
+Change in value function:0.27637
+Change in value function:0.19863
+Change in value function:0.15074
+Change in value function:0.1173
+Change in value function:0.09206
+Change in value function:0.072018
+Change in value function:0.05579
+Change in value function:0.042803
+Change in value function:0.032694
+Change in value function:0.024978
+Change in value function:0.019118
+Change in value function:0.014651
+Change in value function:0.011225
+Change in value function:0.008583
+Change in value function:0.0065373
+Change in value function:0.0049511
+Change in value function:0.0037222
+Change in value function:0.0027731
+Change in value function:0.002044
+Change in value function:0.0014883
+Change in value function:0.0010688
+Change in value function:0.00075609
+</pre><img vspace="5" hspace="5" src="econ_512_HW6_orville_01.png" alt=""> <img vspace="5" hspace="5" src="econ_512_HW6_orville_02.png" alt=""> <h2 id="3">Question 5</h2><pre class="codeinput">    rng(1000); sims=50; decision_sim=zeros(sims,20);p_gen=zeros(sims,20);
+<span class="keyword">for</span> k=1:sims
+    <span class="comment">% Generate the time series for price</span>
+    p_gen(k,1)=11; <span class="comment">%vector of indices.</span>
+    <span class="keyword">for</span> i=1:19
+        draw=mnrnd(1,prob(p_gen(k,i),:));
+        p_gen(k,i+1)=find(draw==1);
+    <span class="keyword">end</span>
+    decision_sim(k,1)=d_revised(1000,11);
+    <span class="keyword">for</span> j=1:19
+        decision_sim(k,j+1)=d_revised(decision_sim(k,j),p_gen(k,j+1));
+    <span class="keyword">end</span>
+    disp([<span class="string">'Iteration:'</span>, num2str(k)]);
+<span class="keyword">end</span>
+sim_stock=stock(decision_sim);
+sim_stock_mean=mean(sim_stock,1);
+sim_stock_se=std(sim_stock,1);
+sim_stock_lb=sim_stock_mean-1.645*(sim_stock_se)/sqrt(sims);
+sim_stock_ub=sim_stock_mean+1.645*(sim_stock_se)/sqrt(sims);
+<span class="comment">%Plot the generated time series for stock</span>
+plot(1:1:20,sim_stock_mean, 1:1:20,sim_stock_lb,1:1:20,sim_stock_ub );
+legend({<span class="string">'Mean Stock'</span>,<span class="string">'Lower'</span>,<span class="string">'Upper'</span>},<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+title(<span class="string">'Expected Optimal Next-period Stock'</span>); xlabel(<span class="string">'Time'</span>);ylabel(<span class="string">'Expected Optimal Stock Next Period.'</span>);
+</pre><pre class="codeoutput">Iteration:1
+Iteration:2
+Iteration:3
+Iteration:4
+Iteration:5
+Iteration:6
+Iteration:7
+Iteration:8
+Iteration:9
+Iteration:10
+Iteration:11
+Iteration:12
+Iteration:13
+Iteration:14
+Iteration:15
+Iteration:16
+Iteration:17
+Iteration:18
+Iteration:19
+Iteration:20
+Iteration:21
+Iteration:22
+Iteration:23
+Iteration:24
+Iteration:25
+Iteration:26
+Iteration:27
+Iteration:28
+Iteration:29
+Iteration:30
+Iteration:31
+Iteration:32
+Iteration:33
+Iteration:34
+Iteration:35
+Iteration:36
+Iteration:37
+Iteration:38
+Iteration:39
+Iteration:40
+Iteration:41
+Iteration:42
+Iteration:43
+Iteration:44
+Iteration:45
+Iteration:46
+Iteration:47
+Iteration:48
+Iteration:49
+Iteration:50
+</pre><img vspace="5" hspace="5" src="econ_512_HW6_orville_03.png" alt=""> <h2 id="4">Question 6</h2><pre class="codeinput"><span class="comment">%Repeat the exercise when using only 5 points of price.</span>
+
+[prob1,grid1]=tauchen(5,0.5,0.5,0.1);
+delta=0.95; S=1000; P=repmat(grid1,S,1); pi2=prob1; <span class="comment">%Setting up discount factor,</span>
+                                                 <span class="comment">%number of state spaces for the resource,</span>
+                                                 <span class="comment">%price matrix, transition</span>
+                                                 <span class="comment">%probabilities.</span>
+stock1=linspace(0,100,S); S1=repmat(stock1',1,length(grid1));<span class="comment">%Actual state space, and a repeated matrix needed for later.</span>
+v_init2=zeros(S,length(grid1));d_init2=ones(S,length(grid1)); <span class="comment">%Initialise value functions, decisions.</span>
+v_revised2=ones(S,length(grid1));d_revised2=ones(S,length(grid1));<span class="comment">%Revised values, used in VFI.</span>
+diff2=1;
+
+<span class="keyword">while</span> diff2&gt;0.001
+    Ev=v_init2*pi2';
+    <span class="keyword">for</span> i=1:S
+        U=u(P,stock(i)-S1);
+        [v_revised2(i,:),d_revised2(i,:)]=max(U+delta*Ev);
+    <span class="keyword">end</span>
+    diff2=norm(v_revised2-v_init2)/norm(v_revised2);
+    disp([<span class="string">'Change in value function:'</span>,num2str(diff2)]);
+    v_init2=v_revised2;
+<span class="keyword">end</span>
+policy2=stock1(d_revised2);
+
+figure(3)
+<span class="comment">%plot value function against stock of goods, for specified prices.</span>
+plot(stock1,v_init2(:,2),<span class="string">'r-'</span>,stock1,v_init2(:,3),<span class="string">'k-.'</span>,stock1,v_init2(:,4),<span class="string">'b--'</span>);
+legend({<span class="string">'p=0.9'</span>,<span class="string">'p=1'</span>,<span class="string">'p=1.1'</span>},<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+title(<span class="string">'Value function cross-sections'</span>);xlabel(<span class="string">'Price'</span>);ylabel(<span class="string">'Value'</span>);
+figure(4)
+<span class="comment">%plot next period optimal stock as a function of price for lumber=25,50,75</span>
+plot(grid1,policy2(250,:),<span class="string">'r-'</span>,grid1,policy2(500,:),<span class="string">'k-.'</span>,grid1,policy2(750,:),<span class="string">'b--'</span>);
+legend({<span class="string">'stock=25'</span>,<span class="string">'stock=50'</span>,<span class="string">'stock=75'</span>},<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+title(<span class="string">'Optimal Next-period Stock'</span>);xlabel(<span class="string">'Price'</span>);ylabel(<span class="string">'Optimal Stock Next Period.'</span>);
+</pre><pre class="codeoutput">Change in value function:1
+Change in value function:0.42575
+Change in value function:0.26805
+Change in value function:0.1934
+Change in value function:0.14735
+Change in value function:0.11493
+Change in value function:0.090315
+Change in value function:0.070787
+Change in value function:0.055033
+Change in value function:0.042436
+Change in value function:0.032584
+Change in value function:0.025013
+Change in value function:0.019227
+Change in value function:0.014795
+Change in value function:0.011382
+Change in value function:0.0087422
+Change in value function:0.0066924
+Change in value function:0.0050985
+Change in value function:0.0038598
+Change in value function:0.0028995
+Change in value function:0.0021585
+Change in value function:0.0015903
+Change in value function:0.0011583
+Change in value function:0.00083312
+</pre><img vspace="5" hspace="5" src="econ_512_HW6_orville_04.png" alt=""> <img vspace="5" hspace="5" src="econ_512_HW6_orville_05.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Question 2
+%Generate a discrete grid of prices, and transition probabilities,
+%approximating the AR(1) process for price.
+
+[prob,grid]=tauchen(21,0.5,0.5,0.1); 
+%% Question 3,4
+%{
+NOTE: Value function iteration is performed to yield a matrix of value
+function values, where element (i,j) corresponds to the value when the
+period stock of `lumber' is the i-th value, and the period price is the
+j-th value. If there are S possible starting stocks, and P possible price
+levels, the value function matrix is of dimension S\cross P
+
+%}
+delta=0.95; S=1000; P=repmat(grid,S,1); pi=prob; %Setting up discount factor, 
+                                                 %number of state spaces for the resource,
+                                                 %price matrix, transition
+                                                 %probabilities.
+stock=linspace(0,100,S); S1=repmat(stock',1,length(grid));%Actual state space, and a repeated matrix needed for later.
+v_init=zeros(S,length(grid));d_init=ones(S,length(grid)); %Initialise value functions, decisions.
+v_revised=ones(S,length(grid));d_revised=ones(S,length(grid));%Revised values, used in VFI.
+diff=1;
+
+while diff>0.001
+    Ev=v_init*pi';
+    for i=1:S
+        U=u(P,stock(i)-S1);
+        [v_revised(i,:),d_revised(i,:)]=max(U+delta*Ev);
+    end
+    diff=norm(v_revised-v_init)/norm(v_revised);
+    disp(['Change in value function:',num2str(diff)]);
+    v_init=v_revised;
+end
+policy=stock(d_revised);
+%plot value function against stock of goods, for specified prices.
+figure(1)
+plot(stock,v_init(:,8),'r-',stock,v_init(:,11),'k-.',stock,v_init(:,14),'bREPLACE_WITH_DASH_DASH');
+legend({'p=0.9','p=1','p=1.1'},'Location','northwest');
+title('Value function cross-sections'); xlabel('Price');ylabel('Value');
+figure(2)   
+%plot next period optimal stock as a function of price for lumber=25,50,75
+plot(grid,policy(250,:),'r-',grid,policy(500,:),'k-.',grid,policy(750,:),'bREPLACE_WITH_DASH_DASH');
+legend({'stock=25','stock=50','stock=75'},'Location','northwest');
+title('Optimal Next-period Stock'); xlabel('Price');ylabel('Optimal Stock Next Period.');
+%% Question 5
+    rng(1000); sims=50; decision_sim=zeros(sims,20);p_gen=zeros(sims,20); 
+for k=1:sims
+    % Generate the time series for price
+    p_gen(k,1)=11; %vector of indices.
+    for i=1:19
+        draw=mnrnd(1,prob(p_gen(k,i),:));
+        p_gen(k,i+1)=find(draw==1);
+    end
+    decision_sim(k,1)=d_revised(1000,11);
+    for j=1:19
+        decision_sim(k,j+1)=d_revised(decision_sim(k,j),p_gen(k,j+1));
+    end
+    disp(['Iteration:', num2str(k)]);
+end
+sim_stock=stock(decision_sim);
+sim_stock_mean=mean(sim_stock,1);
+sim_stock_se=std(sim_stock,1);
+sim_stock_lb=sim_stock_mean-1.645*(sim_stock_se)/sqrt(sims);
+sim_stock_ub=sim_stock_mean+1.645*(sim_stock_se)/sqrt(sims);
+%Plot the generated time series for stock
+plot(1:1:20,sim_stock_mean, 1:1:20,sim_stock_lb,1:1:20,sim_stock_ub );
+legend({'Mean Stock','Lower','Upper'},'Location','northwest');
+title('Expected Optimal Next-period Stock'); xlabel('Time');ylabel('Expected Optimal Stock Next Period.');
+
+%% Question 6
+
+%Repeat the exercise when using only 5 points of price.
+
+[prob1,grid1]=tauchen(5,0.5,0.5,0.1);
+delta=0.95; S=1000; P=repmat(grid1,S,1); pi2=prob1; %Setting up discount factor, 
+                                                 %number of state spaces for the resource,
+                                                 %price matrix, transition
+                                                 %probabilities.
+stock1=linspace(0,100,S); S1=repmat(stock1',1,length(grid1));%Actual state space, and a repeated matrix needed for later.
+v_init2=zeros(S,length(grid1));d_init2=ones(S,length(grid1)); %Initialise value functions, decisions.
+v_revised2=ones(S,length(grid1));d_revised2=ones(S,length(grid1));%Revised values, used in VFI.
+diff2=1;
+
+while diff2>0.001
+    Ev=v_init2*pi2';
+    for i=1:S
+        U=u(P,stock(i)-S1);
+        [v_revised2(i,:),d_revised2(i,:)]=max(U+delta*Ev);
+    end
+    diff2=norm(v_revised2-v_init2)/norm(v_revised2);
+    disp(['Change in value function:',num2str(diff2)]);
+    v_init2=v_revised2;
+end
+policy2=stock1(d_revised2);
+
+figure(3)
+%plot value function against stock of goods, for specified prices.
+plot(stock1,v_init2(:,2),'r-',stock1,v_init2(:,3),'k-.',stock1,v_init2(:,4),'bREPLACE_WITH_DASH_DASH');
+legend({'p=0.9','p=1','p=1.1'},'Location','northwest');
+title('Value function cross-sections');xlabel('Price');ylabel('Value');
+figure(4)
+%plot next period optimal stock as a function of price for lumber=25,50,75
+plot(grid1,policy2(250,:),'r-',grid1,policy2(500,:),'k-.',grid1,policy2(750,:),'bREPLACE_WITH_DASH_DASH');
+legend({'stock=25','stock=50','stock=75'},'Location','northwest');
+title('Optimal Next-period Stock');xlabel('Price');ylabel('Optimal Stock Next Period.');
+
+##### SOURCE END #####
+--></body></html>
