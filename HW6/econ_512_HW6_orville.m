@@ -1,8 +1,7 @@
 %% Question 2
-%{
- Generate a discrete grid of prices, and transition probabilities,
- approximating the AR(1) process for price.
-%}
+%Generate a discrete grid of prices, and transition probabilities,
+%approximating the AR(1) process for price.
+
 [prob,grid]=tauchen(21,0.5,0.5,0.1); 
 %% Question 3,4
 %{
@@ -69,9 +68,9 @@ legend({'Mean Stock','Lower','Upper'},'Location','northwest');
 title('Expected Optimal Next-period Stock'); xlabel('Time');ylabel('Expected Optimal Stock Next Period.');
 
 %% Question 6
-%{
-Repeat the exercise when using only 5 points of price.
-%}
+
+%Repeat the exercise when using only 5 points of price.
+
 [prob1,grid1]=tauchen(5,0.5,0.5,0.1);
 delta=0.95; S=1000; P=repmat(grid1,S,1); pi2=prob1; %Setting up discount factor, 
                                                  %number of state spaces for the resource,
