@@ -1,4 +1,5 @@
 %% Question 2
+%  all is good, check plus
 %Generate a discrete grid of prices, and transition probabilities,
 %approximating the AR(1) process for price.
 
