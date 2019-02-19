@@ -1,3 +1,6 @@
+%  looks like you did not converge to the equilibrium. I think you just
+%  needed to let it run longer and code more efficiently. check the answer
+%  key.
 clear;
 tic;
 setparams;
